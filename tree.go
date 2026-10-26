@@ -296,9 +296,10 @@ func (d *Data) Common(ida, idb int) (cl []int) {
 }
 
 // quick hack to let the llm search
-func (d *Data) Search(field, name string) (ids map[int]bool) {
+func (d *Data) Search(field, name string) (ids []int) {
 
-	ids = make(map[int]bool)
+	//ids = make(map[int]bool)
+	ids = make([]int, 0, 10)
 	//name, _ = strconv.Unquote(name)
 
 	var target []string
@@ -312,7 +313,8 @@ func (d *Data) Search(field, name string) (ids map[int]bool) {
 	}
 	matches := fuzzy.RankFind(name, target)
 	for i, m := range matches {
-		ids[m.OriginalIndex] = true
+		//ids[m.OriginalIndex] = true
+		ids = append(ids, m.OriginalIndex)
 
 		// limit how many people we will add
 		if i > 200 {
